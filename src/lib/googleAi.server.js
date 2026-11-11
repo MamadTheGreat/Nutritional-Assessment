@@ -4,21 +4,7 @@ import { GoogleGenAI } from "@google/genai";
 const jsonResponse = (body, status = 200) =>
   Response.json(body, { status, headers: { "Cache-Control": "no-store" } });
 
-async function authorizeGoogleRequest(request) {
-  const token = request.headers.get("authorization")?.match(/^Bearer\s+(.+)$/i)?.[1];
-  if (!token) return { error: "نشست گوگل معتبر نیست.", status: 401 };
-  const responsePromise = fetch("https://www.googleapis.com/oauth2/v3/userinfo", {
-    headers: { Authorization: `Bearer ${token}` },
-  });
-  const response = await responsePromise.catch(() => null);
-  if (!response) return { error: "ارتباط با سرویس بررسی حساب گوگل برقرار نشد.", status: 502 };
-  if (!response.ok) return { error: "نشست گوگل معتبر نیست.", status: 401 };
-  const profile = await response.json();
-  if (!profile.email_verified || !profile.email) {
-    return { error: "حساب گوگل تأیید نشده است.", status: 403 };
-  }
-  return null;
-}
+
 
 function parseModelJson(content) {
   if (!content || typeof content !== "string") throw new Error("Empty AI response");

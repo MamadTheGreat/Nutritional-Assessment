@@ -27,7 +27,7 @@ if (geminiApiKey) {
 // Every runtime dependency is bundled at startup, for the browser and the SSR worker: one first imported
 // mid-session makes Vite re-bundle, and a page rendered meanwhile on the server loads a second React.
 // Not listed: React itself, the TanStack Start/Router framework (its plugin bundles it) and build-time plugins.
-const NOT_PREBUNDLED = new Set(["react", "react-dom", "@tanstack/react-start", "@tanstack/react-router", "@tanstack/react-router-ssr-query", "tailwindcss-animate", "firebase", "@google/genai"]);
+const NOT_PREBUNDLED = new Set(["react", "react-dom", "@tanstack/react-start", "@tanstack/react-router", "@tanstack/react-router-ssr-query", "tailwindcss-animate", "@google/genai"]);
 const { dependencies } = JSON.parse(readFileSync(new URL("./package.json", import.meta.url), "utf8"));
 const PREBUNDLE = Object.keys(dependencies).filter((name) => !NOT_PREBUNDLED.has(name));
 

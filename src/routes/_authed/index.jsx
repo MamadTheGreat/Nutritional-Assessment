@@ -7,7 +7,6 @@ import AssessmentResult from "@/components/assessment/AssessmentResult";
 import AiProgressCard from "@/components/assessment/AiProgressCard";
 import { PageHead } from "@/components/assessment/ui-bits";
 import ReviewDue from "@/components/patients/ReviewDue";
-import { useAuth } from "@/lib/AuthContext";
 import { buildAssessmentJson, downloadJsonFile, exportFileName } from "@/lib/assessmentExport";
 import {
   buildPlan,
@@ -84,7 +83,6 @@ function AssessmentPage() {
   const [result, setResult] = useState(null);
   const [busy, setBusy] = useState(false);
   const [saving, setSaving] = useState(false);
-  const { user } = useAuth();
   const preset = patients.find((p) => p.id === presetId);
 
   // پایش مجدد از روی پرونده بیمار
@@ -127,7 +125,7 @@ function AssessmentPage() {
   }
 
   const payload = () =>
-    buildAssessmentJson({ form, result, protocol, patientId, dietitianName: user?.full_name });
+    buildAssessmentJson({ form, result, protocol, patientId, dietitianName: "کارشناس تغذیه" });
 
   async function compute() {
     setBusy(true);

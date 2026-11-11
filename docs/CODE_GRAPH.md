@@ -10,8 +10,8 @@ flowchart LR
     Router["router.jsx"]
     RouteTree["TanStack route hierarchy"]
     Root["routes/__root.jsx"]
-    Login["routes/login.jsx"]
-    AuthLayout["routes/_authed.jsx"]
+    LoginRedirect["routes/login.jsx (redirects to /)"]
+    MainLayout["routes/_authed.jsx (Layout Shell)"]
     AssessmentPage["routes/_authed/index.jsx"]
     PatientsPage["routes/_authed/patients.jsx"]
     PatientDetail["routes/_authed/patients_.$patientId.jsx"]
@@ -20,53 +20,45 @@ flowchart LR
 
     Router -->|"configures"| RouteTree
     RouteTree -->|"root layout"| Root
-    RouteTree -->|"login route"| Login
-    RouteTree -->|"protected route group"| AuthLayout
-    AuthLayout -->|"child routes"| AssessmentPage
-    AuthLayout -->|"child routes"| PatientsPage
-    AuthLayout -->|"child routes"| PatientDetail
-    AuthLayout -->|"child routes"| LibraryPage
-    AuthLayout -->|"child routes"| IcuPage
+    RouteTree -->|"redirect route"| LoginRedirect
+    RouteTree -->|"main layout shell"| MainLayout
+    MainLayout -->|"child routes"| AssessmentPage
+    MainLayout -->|"child routes"| PatientsPage
+    MainLayout -->|"child routes"| PatientDetail
+    MainLayout -->|"child routes"| LibraryPage
+    MainLayout -->|"child routes"| IcuPage
   end
 
   subgraph Features["Feature components"]
-    LoginUI["LoginPage"]
     AssessmentUI["Assessment form, result, and intake/lab imports"]
     PatientUI["Patient review and follow-up components"]
     LibraryUI["Library and source dialogs"]
-    NavShell["NavShell"]
-    AuthGate["AuthGate"]
+    NavShell["NavShell (navigation and backup controls)"]
+    BackupDialog["BackupDialog (export/import JSON files)"]
   end
 
   subgraph Shared["Shared application modules"]
-    AuthContext["AuthContext"]
-    GoogleAuth["googleAuth.js"]
     ServerFns["server-fns.js"]
     Clinical["clinical.js"]
     ReviewDates["reviewDates.js"]
     Defaults["clinicalDefaults.js and knowledgeBase.js"]
-    DriveStore["driveStore.js"]
+    LocalStore["driveStore.js (IndexedDB + localStorage)"]
     IntakeFields["intakeFields.js"]
   end
 
   subgraph AI["AI request path"]
-    AiRoutes["API routes: intake, labs, plan"]
+    AiRoutes["API routes: labs, plan"]
     GoogleHandler["googleAi.server.js"]
     Gemini["Google Gemini API"]
   end
 
-  Drive["Google Drive: nutrition-assessment.json"]
+  DeviceStorage["Device Storage: IndexedDB & JSON backup files"]
 
-  Root -->|"provides"| AuthContext
-  Login -->|"renders"| LoginUI
-  LoginUI -->|"Google sign-in"| GoogleAuth
-  AuthLayout -->|"checks session"| AuthGate
-  AuthLayout -->|"renders"| NavShell
-  AuthLayout -->|"loads due reviews"| ServerFns
-  AuthLayout -->|"renders"| PatientUI
-  AuthGate -->|"checks Google session"| GoogleAuth
-  AuthContext -->|"subscribes to session"| GoogleAuth
-  GoogleAuth -->|"sets Drive token"| DriveStore
+  MainLayout -->|"renders"| NavShell
+  MainLayout -->|"loads due reviews"| ServerFns
+  MainLayout -->|"renders"| PatientUI
+  NavShell -->|"embeds"| BackupDialog
+  BackupDialog -->|"exports and imports"| LocalStore
   PatientUI --> ReviewDates
   LibraryUI --> Defaults
 
@@ -86,13 +78,12 @@ flowchart LR
   IcuPage -->|"loads formulas and patients"| ServerFns
   IcuPage -->|"calculates gavage plan"| Clinical
 
-  ServerFns -->|"patient and library data"| DriveStore
-  ServerFns -->|"session token"| GoogleAuth
+  ServerFns -->|"patient and library data"| LocalStore
   ServerFns -->|"deterministic calculations"| Clinical
   ServerFns -->|"defaults and review dates"| Defaults
   ServerFns --> ReviewDates
   ReviewDates --> Defaults
-  DriveStore -->|"reads and writes private JSON"| Drive
+  LocalStore -->|"persists on device"| DeviceStorage
   ServerFns -->|"POST /api/ai/*"| AiRoutes
   AiRoutes -->|"shared request handler"| GoogleHandler
   GoogleHandler --> IntakeFields

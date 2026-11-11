@@ -3,7 +3,6 @@ import { useEffect } from "react";
 import { DefaultCatchBoundary } from "@/components/DefaultCatchBoundary";
 import { NotFound } from "@/components/NotFound";
 import { Toaster } from "@/components/ui/sonner";
-import { AuthProvider } from "@/lib/AuthContext";
 import appCss from "@/index.css?url";
 
 export const Route = createRootRoute({
@@ -38,10 +37,10 @@ function RootComponent() {
     if ("serviceWorker" in navigator) navigator.serviceWorker.register("/sw.js").catch(() => {});
   }, []);
   return (
-    <AuthProvider>
+    <>
       <Outlet />
       <Toaster />
-    </AuthProvider>
+    </>
   );
 }
 
