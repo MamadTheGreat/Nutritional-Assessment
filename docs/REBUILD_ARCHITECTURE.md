@@ -3,9 +3,9 @@
 ## Decision
 
 - Keep the React/TanStack application and its clinical calculation code.
-- Replace Base44 with one private JSON file in the owner's Google Drive. The file contains patients, their visits, and the dietitian's library (protocols, formulas, and reference notes).
-- Use Google OAuth in the browser with the narrow `drive.file` scope. The access token stays in memory and is not written to local storage. Only the Drive file id may be remembered locally so the same file is reused.
-- Send intake text, lab images, and assessment data to the server for Gemini processing. The image is not persisted. Extracted values are shown for review and saved only as text when the visit is saved.
+- Store all clinical records, patients, visits, and library (protocols, formulas, sources) locally on the device (IndexedDB with localStorage mirroring). No login or external account is required.
+- Provide direct JSON file export/download and file import so users can save backups to their phone or computer and restore them anytime.
+- Send intake text, lab images, and assessment data to the server for Gemini processing without requiring OAuth tokens. Extracted values are shown for review and saved locally only when the visit is saved.
 - Keep the Gemini API key and model name in the Worker environment. The API key must never be exposed to browser code.
 - Keep deterministic clinical calculations in application code. AI text is advisory and reviewable. If Gemini is not configured, the calculated result is still shown.
 

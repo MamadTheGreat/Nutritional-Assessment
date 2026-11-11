@@ -1,12 +1,7 @@
-import { redirect } from "@tanstack/react-router";
 import { DefaultCatchBoundary } from "@/components/DefaultCatchBoundary";
-import { getGoogleUser } from "@/lib/googleAuth";
 
-export async function requireSignedIn({ location }) {
-  const user = getGoogleUser();
-  if (user) return { user };
-  const returnTo = `${location.pathname || "/"}${location.searchStr || ""}`;
-  throw redirect({ to: "/login", search: { returnTo } });
+export async function requireSignedIn() {
+  return { user: { full_name: "کارشناس تغذیه" } };
 }
 
 export function AuthGateError({ error }) {

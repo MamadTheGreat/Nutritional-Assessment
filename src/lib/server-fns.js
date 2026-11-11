@@ -2,7 +2,6 @@ import { bmi, bmiCategory, computeNrs, computeTargets, getWeightLossPercent, ide
 import { DEFAULT_FORMULAS, DEFAULT_PROTOCOLS } from "@/lib/clinicalDefaults";
 import { SEED_SOURCES } from "@/lib/knowledgeBase";
 import { createRecordId, loadPatientDatabase, updatePatientDatabase } from "@/lib/driveStore";
-import { expireGoogleSession, getGoogleAccessToken } from "@/lib/googleAuth";
 import { addDaysISO, reviewDaysFor, todayISO } from "@/lib/reviewDates";
 
 const dataOf = (input) => input?.data ?? input ?? {};
@@ -281,15 +280,12 @@ export async function deleteSource(input) {
 }
 
 async function callAi(path, data) {
-  const token = getGoogleAccessToken();
-  if (!token) throw new Error("نشست گوگل منقضی شده است؛ دوباره وارد شوید.");
   const response = await fetch(path, {
     method: "POST",
-    headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
   });
   const result = await response.json().catch(() => ({}));
-  if (response.status === 401) expireGoogleSession();
   if (!response.ok) throw new Error(result.error || "پاسخ هوش مصنوعی دریافت نشد.");
   return result;
 }

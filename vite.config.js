@@ -9,13 +9,16 @@ import { defineConfig } from "vite";
 const geminiApiKey = process.env.GEMINI_API_KEY || "";
 if (geminiApiKey) {
   try {
-    let devVars = existsSync(".dev.vars") ? readFileSync(".dev.vars", "utf8") : "";
+    const devVars = existsSync(".dev.vars") ? readFileSync(".dev.vars", "utf8") : "";
     const lines = devVars.split("\n").filter((l) => !l.startsWith("GEMINI_API_KEY="));
     lines.push(`GEMINI_API_KEY=${geminiApiKey}`);
     if (!lines.some((l) => l.startsWith("GEMINI_MODEL="))) {
       lines.push("GEMINI_MODEL=gemini-3.8-flash");
     }
-    writeFileSync(".dev.vars", lines.filter(Boolean).join("\n") + "\n");
+    const newContent = lines.filter(Boolean).join("\n") + "\n";
+    if (newContent !== devVars) {
+      writeFileSync(".dev.vars", newContent);
+    }
   } catch (err) {
     console.warn("Could not sync .dev.vars:", err);
   }

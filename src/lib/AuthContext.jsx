@@ -1,26 +1,26 @@
-import { createContext, useContext, useEffect, useMemo, useState } from "react";
-import { getGoogleUser, signOutFromGoogle, subscribeToGoogleSession } from "@/lib/googleAuth";
+import { createContext, useContext, useMemo } from "react";
 
 const AuthContext = createContext(null);
 
+const LOCAL_USER = Object.freeze({
+  id: "local-user",
+  full_name: "کارشناس تغذیه",
+  email: "ذخیره روی این دستگاه",
+  picture: null,
+});
+
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState(() => getGoogleUser());
-
-  useEffect(() => subscribeToGoogleSession(setUser), []);
-
   const value = useMemo(
     () => ({
-      user,
-      isAuthenticated: Boolean(user),
+      user: LOCAL_USER,
+      isAuthenticated: true,
       isLoadingAuth: false,
       authError: null,
-      refresh: async () => getGoogleUser(),
-      logout: signOutFromGoogle,
-      navigateToLogin: () => {
-        window.location.href = `/login?returnTo=${encodeURIComponent(window.location.pathname + window.location.search)}`;
-      },
+      refresh: async () => LOCAL_USER,
+      logout: () => {},
+      navigateToLogin: () => {},
     }),
-    [user],
+    [],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

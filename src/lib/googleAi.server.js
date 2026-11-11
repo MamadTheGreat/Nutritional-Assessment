@@ -243,8 +243,6 @@ async function readBoundedJson(request, maxBytes) {
 
 export async function handleAiRequest(request, action) {
   if (request.method !== "POST") return jsonResponse({ error: "روش درخواست پشتیبانی نمی‌شود." }, 405);
-  const authError = await authorizeGoogleRequest(request);
-  if (authError) return jsonResponse({ error: authError.error }, authError.status);
   const parsed = await readBoundedJson(request, 15 * 1024 * 1024);
   if (parsed.error) return jsonResponse({ error: parsed.error }, parsed.status);
   const body = parsed.body;
