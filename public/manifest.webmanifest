@@ -1,0 +1,13 @@
+{
+  "name": "دستیار تغذیه بالینی",
+  "short_name": "تغذیه بالینی",
+  "description": "ارزیابی و پیگیری تغذیهٔ بیماران",
+  "lang": "fa-IR",
+  "dir": "rtl",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#f8f7f3",
+  "theme_color": "#0b5960",
+  "icons": [{ "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }]
+}

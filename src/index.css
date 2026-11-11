@@ -1,0 +1,204 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 40 24% 97%;
+    --foreground: 195 24% 12%;
+    --card: 0 0% 100%;
+    --card-foreground: 195 24% 12%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 195 24% 12%;
+    --primary: 187 62% 22%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 190 18% 93%;
+    --secondary-foreground: 187 40% 18%;
+    --muted: 40 16% 94%;
+    --muted-foreground: 195 10% 42%;
+    --accent: 173 38% 92%;
+    --accent-foreground: 187 50% 18%;
+    --destructive: 5 68% 47%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 40 12% 87%;
+    --input: 40 12% 84%;
+    --ring: 187 62% 22%;
+    --chart-1: 187 62% 30%;
+    --chart-2: 173 45% 42%;
+    --chart-3: 38 75% 55%;
+    --chart-4: 5 68% 55%;
+    --chart-5: 195 20% 45%;
+    --radius: 0.7rem;
+    --font-heading: "Vazirmatn", "Segoe UI", system-ui, sans-serif;
+    --font-body: "Vazirmatn", "Segoe UI", system-ui, sans-serif;
+    --font-display: "Vazirmatn", "Segoe UI", system-ui, sans-serif;
+    --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+    --sidebar-background: 40 24% 97%;
+    --sidebar-foreground: 195 24% 12%;
+    --sidebar-primary: 187 62% 22%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 173 38% 92%;
+    --sidebar-accent-foreground: 187 50% 18%;
+    --sidebar-border: 40 12% 87%;
+    --sidebar-ring: 187 62% 22%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-background text-foreground font-body antialiased;
+    font-feature-settings: "ss01";
+  }
+
+  input[type="number"]::-webkit-outer-spin-button,
+  input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  input[type="number"] {
+    -moz-appearance: textfield;
+  }
+
+  ::selection {
+    background: hsl(var(--primary) / 0.14);
+  }
+}
+
+@layer utilities {
+  .num {
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.01em;
+  }
+
+  .rule-grid {
+    background-image: linear-gradient(to left, hsl(var(--border)) 1px, transparent 1px);
+    background-size: 28px 100%;
+  }
+}
+
+/* ---- برگه چاپی مصوب بیمارستان (فونت‌های همان فایل) ---- */
+@font-face {
+  font-family: "SheetTitr";
+  src: url("https://base44.app/api/apps/6ae912aff014a855b09bb3f1/files/mp/public/6ae912aff014a855b09bb3f1/1cbf695ec_font-0.ttf") format("truetype");
+  font-weight: 700;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "SheetBody";
+  src: url("https://base44.app/api/apps/6ae912aff014a855b09bb3f1/files/mp/public/6ae912aff014a855b09bb3f1/bc15906bd_font-6.ttf") format("truetype");
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "SheetBody";
+  src: url("https://base44.app/api/apps/6ae912aff014a855b09bb3f1/files/mp/public/6ae912aff014a855b09bb3f1/3b28c2177_font-5.ttf") format("truetype");
+  font-weight: 700;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "SheetLatin";
+  src: url("https://base44.app/api/apps/6ae912aff014a855b09bb3f1/files/mp/public/6ae912aff014a855b09bb3f1/9e5a81386_font-1.ttf") format("truetype");
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "SheetLatin";
+  src: url("https://base44.app/api/apps/6ae912aff014a855b09bb3f1/files/mp/public/6ae912aff014a855b09bb3f1/0c84ddde0_font-4.ttf") format("truetype");
+  font-weight: 700;
+  font-display: swap;
+}
+
+.sheet-fa {
+  font-family: "SheetBody", "Vazirmatn", system-ui, sans-serif;
+}
+
+.sheet-en {
+  font-family: "SheetLatin", system-ui, sans-serif;
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+
+.sheet-titr {
+  font-family: "SheetTitr", "SheetBody", "Vazirmatn", sans-serif;
+  font-weight: 700;
+}
+
+.sheet-page {
+  min-height: 283mm;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.sheet-grid {
+  display: grid;
+  border-block-start: 0.5pt solid #000;
+  border-inline-start: 0.5pt solid #000;
+}
+
+.sheet-grid > * {
+  border-block-end: 0.5pt solid #000;
+  border-inline-end: 0.5pt solid #000;
+}
+
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 5mm;
+  }
+
+  html,
+  body {
+    background: #fff !important;
+  }
+
+  body * {
+    visibility: hidden !important;
+  }
+
+  #sheet-print-root,
+  #sheet-print-root * {
+    visibility: visible !important;
+  }
+
+  #sheet-print-root {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+  }
+
+  .sheet-overlay {
+    position: static !important;
+    overflow: visible !important;
+    background: #fff !important;
+  }
+
+  .sheet-page {
+    width: 200mm !important;
+    min-height: 0 !important;
+    margin: 0 auto !important;
+    box-shadow: none !important;
+    break-after: page;
+  }
+
+  .sheet-page:last-child {
+    break-after: auto;
+  }
+
+  .print-hide {
+    display: none !important;
+  }
+}

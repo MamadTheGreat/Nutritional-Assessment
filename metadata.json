@@ -1,0 +1,11 @@
+{
+  "name": "Clinical Nutrition Assistant",
+  "description": "دستیار تغذیه بالینی - وب‌اپ تخصصی کارشناس تغذیه بیمارستان جهت ارزیابی بالینی، محاسبه گاواژ، پرونده بیماران و تنظیم برنامه‌های تغذیه‌ای.",
+  "permissions": [],
+  "capabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
