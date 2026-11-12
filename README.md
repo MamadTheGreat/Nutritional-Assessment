@@ -1,149 +1,151 @@
-Clinical Nutrition Assistant
-A specialized Persian-language web application for hospital clinical nutrition specialists, designed for assessing hospitalized patients, monitoring periodic visits, calculating enteral feeding (gavage) in the ICU, managing hospital protocols and formulas, and intelligently extracting lab results and clinical information.
+﻿# Clinical Nutrition Assistant
 
-Key Features
-1. Instant Start Without Login or Account:
+A Persian, right-to-left web application for hospital clinical nutrition specialists. It supports inpatient nutrition assessment and follow-up, ICU enteral-feeding calculations, hospital protocol and formula management, and AI-assisted extraction of clinical information.
 
-The app runs directly from the clinical assessment page and requires no Google account, email, or login.
-2. Fully Local and Secure Storage on Device (Local Storage / IndexedDB):
+## Key Features
 
-All patient data, visits, and the library are stored on the user’s own device (mobile phone, tablet, or computer).
-Data loads quickly and fully offline, and no patient data is ever sent to external servers.
-3. Easy File Backup and Transfer:
+- **No account required:** Open the app and start using the clinical assessment workflow without signing in.
+- **On-device records:** Patient records, visits, and library data are stored in the browser on the current device using IndexedDB with a localStorage fallback.
+- **Backup and restore:** Export and restore application data with a JSON backup file (`nutrition-assessment-backup.json`). Keep backups in a secure location because they may contain patient information.
+- **Clinical calculation tools:** Includes BMI, ideal and adjusted body weight, NRS-2002 screening, nutrition targets, and an ICU enteral-feeding module. Review calculations and clinical decisions against current patient information and applicable guidance.
+- **AI-assisted workflows:** Google Gemini can help extract information from text and lab images and draft nutrition-care suggestions. AI output is a draft for review by a qualified clinician.
 
-Ability to download a backup file (nutrition-assessment-backup.json) directly to the device’s download folder.
-Ability to quickly restore records from a backup file when switching phones or browsers.
-4. Definitive and Standard Clinical Calculations:
+## Local Setup
 
-Accurate calculation of BMI, weight classification, ideal body weight (IBW), and adjusted body weight (ABW).
-Nutrition screening based on the NRS-2002 index.
-Determination of calorie, protein, fluid, and electrolyte requirements based on ESPEN and ASPEN clinical guidelines.
-A specialized ICU gavage module based on standard regimens and specific diseases.
-5. Intelligent Extraction and Clinical Suggestion Assistant (Google Gemini):
+### Requirements
 
-Reading images of medical and laboratory test reports with AI and extracting abnormal values.
-Extracting patient history and information from free text or speech.
-Drafting nutrition care plans and food–drug interaction tips.
-Local Setup and Running
-Prerequisites
-Node.js version 22 or higher
-npm
-Running Steps
-Install dependencies:
-bash
-npm install
-Configure environment variables:
-bash
-cp .dev.vars.example .dev.vars
-Place your Gemini API key in the .dev.vars file:
+- Node.js 22 or later
+- npm
 
-env
-GEMINI_API_KEY=your_gemini_api_key_here
-GEMINI_MODEL=gemini-3.8-flash
-Start the development server:
-bash
-npm run dev
-The app will be available at http://localhost:3000.
+### Run the app
 
-Build & Deploy
-To build the final version:
+1. Install dependencies:
 
-bash
+   ```bash
+   npm install
+   ```
+
+2. Copy the local environment template:
+
+   ```bash
+   cp .dev.vars.example .dev.vars
+   ```
+
+3. Add your Gemini API key to `.dev.vars`:
+
+   ```env
+   GEMINI_API_KEY=your_gemini_api_key_here
+   GEMINI_MODEL=gemini-3.8-flash
+   ```
+
+   Keep `.dev.vars` private; do not commit API keys.
+
+4. Start the development server:
+
+   ```bash
+   npm run dev
+   ```
+
+   The app runs at <http://localhost:3000>.
+
+## Build and Deploy
+
+Build the application:
+
+```bash
 npm run build
-Deploy on Cloudflare Workers:
+```
 
-bash
+To deploy to Cloudflare Workers, configure the Gemini key as a Worker secret and deploy:
+
+```bash
 npx wrangler secret put GEMINI_API_KEY
 npm run deploy
-Privacy and Data Security
-All patient records, visit figures, and library settings are stored only in the device’s browser local memory.
-In the AI features (lab OCR and care plan drafts), images are temporary and are never saved on any server or database.
-The AI API key is stored server-side and is never exposed in the browser code.
+```
 
+## Data and Privacy
 
+Patient records, visits, and library settings are stored in the browser on the user's device. They are not automatically synchronized to a cloud database. Data stays in that browser profile, so use the backup and restore feature when moving to another device or browser.
 
+AI features send the information needed for the requested task to the server-side Gemini integration, including submitted text, selected assessment details, or lab images as applicable. Do not submit information unless you are authorized to do so and the use complies with your organization's privacy requirements. Lab images are processed for the request and are not saved in the application's patient database. The Gemini API key is kept on the server and must not be exposed in browser code.
 
+## Clinical Use
 
-# دستیار تغذیه بالینی (Clinical Nutrition Assistant)
-
-وب‌اپلیکیشن تخصصی و فارسی برای کارشناسان تغذیه بالینی بیمارستان جهت ارزیابی بالینی بیماران بستری، پایش ویزیت‌های دوره‌ای، محاسبه گاواژ انترال در ICU، مدیریت پروتکل‌ها و فرمولاهای بیمارستان و استخراج هوشمند آزمایش‌ها و اطلاعات بالینی.
+This application is a decision-support tool. It does not replace professional assessment, clinical judgment, or local protocols. Verify AI-generated content and calculations before using them in patient care.
 
 ---
+
+# دستیار تغذیه بالینی
+
+وب‌اپلیکیشنی فارسی و راست‌چین برای کارشناسان تغذیهٔ بالینی بیمارستان است. این برنامه از ارزیابی و پیگیری تغذیه‌ای بیماران بستری، محاسبات تغذیهٔ انترال در ICU، مدیریت پروتکل‌ها و فرمول‌ها و استخراج هوشمند اطلاعات بالینی پشتیبانی می‌کند.
 
 ## ویژگی‌های اصلی
 
-1. **شروع فوری و بدون نیاز به ورود یا حساب کاربری:**
-   - برنامه مستقیماً از صفحهٔ ارزیابی بالینی اجرا می‌شود و نیازی به حساب گوگل، ایمیل یا لاگین ندارد.
+- **بدون نیاز به حساب کاربری:** برنامه را باز کنید و مستقیماً از فرایند ارزیابی بالینی استفاده کنید.
+- **ذخیرهٔ اطلاعات روی دستگاه:** پرونده‌های بیماران، ویزیت‌ها و اطلاعات کتابخانه در مرورگر همان دستگاه و با استفاده از IndexedDB و روش جایگزین localStorage ذخیره می‌شوند.
+- **پشتیبان‌گیری و بازیابی:** اطلاعات برنامه را با فایل پشتیبان JSON (`nutrition-assessment-backup.json`) دریافت یا بازیابی کنید. چون فایل پشتیبان ممکن است حاوی اطلاعات بیمار باشد، آن را در محل امن نگهداری کنید.
+- **ابزارهای محاسبات بالینی:** شامل BMI، وزن ایده‌آل و تعدیل‌شده، غربالگری NRS-2002، نیازهای تغذیه‌ای و ماژول تغذیهٔ انترال در ICU. محاسبات و تصمیم‌های بالینی را با اطلاعات به‌روز بیمار و راهنماهای معتبر تطبیق دهید.
+- **قابلیت‌های مبتنی بر هوش مصنوعی:** Google Gemini می‌تواند در استخراج اطلاعات از متن و تصویر آزمایش‌ها و تهیهٔ پیش‌نویس پیشنهادهای مراقبت تغذیه‌ای کمک کند. خروجی هوش مصنوعی پیش‌نویس است و باید توسط کارشناس واجد صلاحیت بازبینی شود.
 
-2. **ذخیره‌سازی کاملاً محلی و امن روی دستگاه (Local Storage / IndexedDB):**
-   - تمامی اطلاعات بیماران، ویزیت‌ها و کتابخانه روی خود دستگاه کاربر (تلفن همراه، تبلت یا رایانه) ذخیره می‌شوند.
-   - داده‌ها به صورت کاملاً آفلاین و سریع بارگذاری می‌شوند و هیچ دادهٔ بیماری به سرورهای خارجی فرستاده نمی‌شود.
-
-3. **پشتیبان‌گیری و جابه‌جایی آسان فایل‌ها:**
-   - امکان دانلود فایل پشتیبان (`nutrition-assessment-backup.json`) مستقیماً در پوشهٔ دانلودهای دستگاه.
-   - امکان بازیابی سریع پرونده‌ها از روی فایل پشتیبان در صورت تعویض گوشی یا مرورگر.
-
-4. **محاسبات بالینی قطعی و استاندارد:**
-   - محاسبه دقیق BMI، طبقه‌بندی وزن، وزن ایده‌آل (IBW) و وزن تعدیل‌شده (ABW).
-   - غربالگری تغذیه طبق شاخص NRS-2002.
-   - تعیین نیازهای کالری، پروتئین، مایعات و الکترولیت‌ها بر اساس گایدلاین‌های بالینی ESPEN و ASPEN.
-   - ماژول تخصصی گاواژ ICU بر حسب رژیم‌های استاندارد و بیماری‌های خاص.
-
-5. **دستیار هوشمند استخراج و پیشنهاد بالینی (Google Gemini):**
-   - خواندن تصاویر برگه‌های آزمایش پزشکی و آزمایشگاهی با هوش مصنوعی و استخراج مقادیر غیرطبیعی.
-   - استخراج شرح حال و اطلاعات بیمار از متن آزاد یا گفتار.
-   - تهیه پیش‌نویس طرح مراقبت تغذیه‌ای و نکات تداخل غذا-دارو.
-
----
-
-## راه‌اندازی و اجرای محلی
+## راه‌اندازی محلی
 
 ### پیش‌نیازها
+
 - Node.js نسخهٔ ۲۲ یا بالاتر
 - npm
 
-### گام‌های اجرا
+### اجرای برنامه
 
-۱. نصب وابستگی‌ها:
-```bash
-npm install
-```
+۱. وابستگی‌ها را نصب کنید:
 
-۲. تنظیم متغیرهای محیطی:
-```bash
-cp .dev.vars.example .dev.vars
-```
-در فایل `.dev.vars` کلید Gemini API را قرار دهید:
-```env
-GEMINI_API_KEY=your_gemini_api_key_here
-GEMINI_MODEL=gemini-3.8-flash
-```
+   ```bash
+   npm install
+   ```
 
-۳. اجرای سرور توسعه:
-```bash
-npm run dev
-```
-برنامه روی آدرس `http://localhost:3000` در دسترس خواهد بود.
+۲. فایل نمونهٔ متغیرهای محیطی را کپی کنید:
 
----
+   ```bash
+   cp .dev.vars.example .dev.vars
+   ```
 
-## ساخت و استقرار (Build & Deploy)
+۳. کلید Gemini را در فایل `.dev.vars` قرار دهید:
 
-برای ساخت نسخهٔ نهایی:
+   ```env
+   GEMINI_API_KEY=your_gemini_api_key_here
+   GEMINI_MODEL=gemini-3.8-flash
+   ```
+
+   فایل `.dev.vars` را محرمانه نگه دارید و کلید API را در مخزن ثبت نکنید.
+
+۴. سرور توسعه را اجرا کنید:
+
+   ```bash
+   npm run dev
+   ```
+
+   برنامه در نشانی <http://localhost:3000> در دسترس خواهد بود.
+
+## ساخت و استقرار
+
+برای ساخت برنامه:
+
 ```bash
 npm run build
 ```
 
-انتشار روی Cloudflare Workers:
+برای استقرار روی Cloudflare Workers، کلید Gemini را به‌عنوان Worker Secret تنظیم و برنامه را منتشر کنید:
+
 ```bash
 npx wrangler secret put GEMINI_API_KEY
 npm run deploy
 ```
 
----
+## داده‌ها و حریم خصوصی
 
-## حریم خصوصی و امنیت داده‌ها
+پرونده‌های بیماران، ویزیت‌ها و تنظیمات کتابخانه در مرورگر دستگاه کاربر ذخیره می‌شوند و به‌طور خودکار با پایگاه دادهٔ ابری همگام‌سازی نمی‌شوند. این اطلاعات به همان نمایهٔ مرورگر وابسته‌اند؛ برای انتقال به دستگاه یا مرورگر دیگر از قابلیت پشتیبان‌گیری و بازیابی استفاده کنید.
 
-- کلیه پرونده‌های بیماران، ارقام ویزیت‌ها و تنظیمات کتابخانه فقط در حافظهٔ محلی مرورگر دستگاه نگهداری می‌شوند.
-- در قابلیت‌های هوش مصنوعی (OCR آزمایش‌ها و پیش‌نویس طرح)، تصاویر موقت بوده و در هیچ سرور یا دیتابیسی ذخیره نمی‌شوند.
-- کلید API هوش مصنوعی در سمت سرور نگهداری شده و هرگز در کد مرورگر افشا نمی‌شود.
+قابلیت‌های هوش مصنوعی، اطلاعات لازم برای انجام درخواست را به اتصال سروری Gemini ارسال می‌کنند؛ این اطلاعات بسته به قابلیت مورد استفاده می‌تواند شامل متن واردشده، جزئیات ارزیابی انتخاب‌شده یا تصویر آزمایش باشد. اطلاعاتی را ارسال کنید که مجاز به استفاده از آن هستید و با الزامات حریم خصوصی محل کارتان سازگار است. تصویر آزمایش برای پردازش همان درخواست استفاده می‌شود و در پایگاه دادهٔ بیماران برنامه ذخیره نمی‌شود. کلید Gemini در سمت سرور نگهداری می‌شود و نباید در کد مرورگر افشا شود.
+
+## استفادهٔ بالینی
+
+این برنامه ابزار پشتیبان تصمیم‌گیری است و جایگزین ارزیابی تخصصی، قضاوت بالینی یا پروتکل‌های محلی نیست. محاسبات و محتوای تولیدشده با هوش مصنوعی را پیش از استفاده در مراقبت از بیمار بررسی کنید.
