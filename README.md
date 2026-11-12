@@ -1,3 +1,69 @@
+Clinical Nutrition Assistant
+A specialized Persian-language web application for hospital clinical nutrition specialists, designed for assessing hospitalized patients, monitoring periodic visits, calculating enteral feeding (gavage) in the ICU, managing hospital protocols and formulas, and intelligently extracting lab results and clinical information.
+
+Key Features
+1. Instant Start Without Login or Account:
+
+The app runs directly from the clinical assessment page and requires no Google account, email, or login.
+2. Fully Local and Secure Storage on Device (Local Storage / IndexedDB):
+
+All patient data, visits, and the library are stored on the user’s own device (mobile phone, tablet, or computer).
+Data loads quickly and fully offline, and no patient data is ever sent to external servers.
+3. Easy File Backup and Transfer:
+
+Ability to download a backup file (nutrition-assessment-backup.json) directly to the device’s download folder.
+Ability to quickly restore records from a backup file when switching phones or browsers.
+4. Definitive and Standard Clinical Calculations:
+
+Accurate calculation of BMI, weight classification, ideal body weight (IBW), and adjusted body weight (ABW).
+Nutrition screening based on the NRS-2002 index.
+Determination of calorie, protein, fluid, and electrolyte requirements based on ESPEN and ASPEN clinical guidelines.
+A specialized ICU gavage module based on standard regimens and specific diseases.
+5. Intelligent Extraction and Clinical Suggestion Assistant (Google Gemini):
+
+Reading images of medical and laboratory test reports with AI and extracting abnormal values.
+Extracting patient history and information from free text or speech.
+Drafting nutrition care plans and food–drug interaction tips.
+Local Setup and Running
+Prerequisites
+Node.js version 22 or higher
+npm
+Running Steps
+Install dependencies:
+bash
+npm install
+Configure environment variables:
+bash
+cp .dev.vars.example .dev.vars
+Place your Gemini API key in the .dev.vars file:
+
+env
+GEMINI_API_KEY=your_gemini_api_key_here
+GEMINI_MODEL=gemini-3.8-flash
+Start the development server:
+bash
+npm run dev
+The app will be available at http://localhost:3000.
+
+Build & Deploy
+To build the final version:
+
+bash
+npm run build
+Deploy on Cloudflare Workers:
+
+bash
+npx wrangler secret put GEMINI_API_KEY
+npm run deploy
+Privacy and Data Security
+All patient records, visit figures, and library settings are stored only in the device’s browser local memory.
+In the AI features (lab OCR and care plan drafts), images are temporary and are never saved on any server or database.
+The AI API key is stored server-side and is never exposed in the browser code.
+
+
+
+
+
 # دستیار تغذیه بالینی (Clinical Nutrition Assistant)
 
 وب‌اپلیکیشن تخصصی و فارسی برای کارشناسان تغذیه بالینی بیمارستان جهت ارزیابی بالینی بیماران بستری، پایش ویزیت‌های دوره‌ای، محاسبه گاواژ انترال در ICU، مدیریت پروتکل‌ها و فرمولاهای بیمارستان و استخراج هوشمند آزمایش‌ها و اطلاعات بالینی.
